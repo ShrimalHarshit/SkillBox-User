@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", "Noto Sans Devanagari", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Sora", "Noto Sans Devanagari", ui-sans-serif, system-ui, sans-serif;
+
+  /* SkillBox brand — quiet emerald */
+  --color-brand-50: #ecf9f2;
+  --color-brand-100: #d3f1e3;
+  --color-brand-200: #a8e4cb;
+  --color-brand-300: #74d1ac;
+  --color-brand-400: #3fbb8c;
+  --color-brand-500: #1b9e73;
+  --color-brand-600: #0f855f;
+  --color-brand-700: #0d6a4e;
+  --color-brand-800: #0c553f;
+  --color-brand-900: #0a4634;
+  --color-brand-950: #04271d;
+
+  /* Warm neutral paper / ink */
+  --color-paper: #faf9f7;
+  --color-surface: #ffffff;
+  --color-ink: #1b1a17;
+  --color-ink-2: #5f5e58;
+  --color-ink-3: #96958d;
+  --color-line: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.09));
+
+  --color-night: #131311;
+  --color-night-1: #191916;
+  --color-night-2: #21211d;
+  --color-night-ink: #f1f0ea;
+  --color-night-ink2: #a5a49b;
+  --color-night-ink3: #6c6b63;
+
+  --shadow-card: 0 1px 2px rgb(27 26 23 / 0.04), 0 8px 24px -12px rgb(27 26 23 / 0.12);
+  --shadow-pop: 0 2px 6px rgb(27 26 23 / 0.06), 0 20px 44px -16px rgb(27 26 23 / 0.22);
+
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.21, 1);
+
+  --animate-breathe: breathe 3.6s ease-in-out infinite;
+  --animate-cursor: cursor 1s step-end infinite;
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  @keyframes cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink dark:bg-night dark:text-night-ink font-sans;
+    font-feature-settings: "cv11", "ss01";
+  }
+  :lang(hi), :lang(mr) {
+    font-feature-settings: "akhn";
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-brand-500) 22%, transparent);
+  }
+  *:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--color-brand-500) 65%, transparent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, currentColor 14%, transparent);
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-track { background: transparent; }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+  .text-balance { text-wrap: balance; }
+  .card {
+    @apply rounded-2xl bg-surface dark:bg-night-1 border border-line shadow-[var(--shadow-card)];
+  }
+  .tap-target { @apply min-h-11 min-w-11; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
